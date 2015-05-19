@@ -4,9 +4,11 @@ from tictactoe import TicTacToe
 
 
 class TestTicTacToe(unittest.TestCase):
+
     """Test Tic Tac Toe."""
 
     def setUp(self):
+        """Create a new game for each test."""
         self.game = TicTacToe()
 
     def test_valid_range(self):
@@ -38,6 +40,7 @@ class TestTicTacToe(unittest.TestCase):
     def test_cats_game(self):
         """Any non-winning board that has no spaces left to play, is a cat's game."""
         self.assertFalse(self.game.is_there_a_winner())
+        self.assertFalse(self.game.cats_game())
         self.game.player1 = [1, 0, 1,
                              0, 1, 0,
                              0, 1, 0]
@@ -48,6 +51,11 @@ class TestTicTacToe(unittest.TestCase):
         for space in range(1, 10):
             self.assertFalse(self.game.validate_move(space))
 
+        self.assertTrue(self.game.cats_game())
+
+    def test_multiple_games(self):
+        """Multiple games can occur at the same time."""
+        pass
 
 if __name__ == '__main__':
     unittest.main()

@@ -11,13 +11,14 @@ class TicTacToe(object):
     def __init__(self):
         """Setup the game.
 
-        Each player has their own board which is represented as a bit array.
+        Each player has their own board which is represented as a bit array. A 1 means they are in that
+        position on the board, a 0 means they are not.
         """
         self.player1 = [0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.player2 = [0, 0, 0, 0, 0, 0, 0, 0, 0]
 
     def draw_board(self):
-        """Draw the game board."""
+        """Draw the game board. Player1 is x, Player2 is o."""
         for i in range(9):
             if self.player1[i]:
                 print(' x ', end='')
@@ -79,6 +80,13 @@ class TicTacToe(object):
         print('{} is a valid move'.format(space))
         return True
 
+    def cats_game(self):
+        """Return true if this is a cats game and there are no more moves to play."""
+        if [1, 1, 1, 1, 1, 1, 1, 1, 1] == [x | y for x, y in zip(self.player1, self.player2)]:
+            print("CATS GAME! Please play again...")
+            return True
+        return False
+
     def is_there_a_winner(self):
         """Check for a winner.
 
@@ -111,7 +119,9 @@ class TicTacToe(object):
 if __name__ == '__main__':
     GAME = TicTacToe()
     player = GAME.player1
-    while (not GAME.is_there_a_winner()):
+    while (not GAME.is_there_a_winner() and not GAME.cats_game()):
         GAME.draw_board()
         GAME.take_turn(player)
+        # TODO consider storing the current player as a property of a GAME
+        # and turning this into a function GAME.next_player
         player = GAME.player1 if player == GAME.player2 else GAME.player2
